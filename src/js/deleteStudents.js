@@ -4,3 +4,5 @@ export function deleteStudents(id) {
     }
     return fetch(`http://localhost:3000/students/${id}`,options)
 }
+
+// asdasd

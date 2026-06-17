@@ -8,3 +8,5 @@ export function addStudent(data) {
     }
     return fetch("http://localhost:3000/students",options).then(res=>res.json())
 }
+
+// asdasdas
