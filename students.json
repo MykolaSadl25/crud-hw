@@ -26,19 +26,6 @@
       "isEnrolled": true
     },
     {
-      "id": "4",
-      "name": "Anastasia Ivanova",
-      "age": 17,
-      "course": "Data Science",
-      "skills": [
-        "Python",
-        "Pandas",
-        "Machine Learning"
-      ],
-      "email": "anastasia.ivanova@example.com",
-      "isEnrolled": true
-    },
-    {
       "name": "Nikita Dacton",
       "age": "16",
       "course": "Frontend",
@@ -48,13 +35,22 @@
       "id": "7OnPNtpY2ok"
     },
     {
-      "name": "John Smith",
-      "age": "14",
-      "course": "SCSS",
-      "skills": "C++,JS,AWS",
-      "email": "jhsmith@mail.com",
+      "name": "Nikita Dacton",
+      "age": "16",
+      "course": "Frontend",
+      "skills": "HTML,CSS,JS,PYTHON,C#",
+      "email": "nikita-dact@gmail.com",
       "isEnrolled": "Випустився",
-      "id": "P_ii65ugXSM"
+      "id": "BS_uI6FzY8o"
+    },
+    {
+      "name": "Ivan Melnyk",
+      "age": "11",
+      "course": "GameDev",
+      "skills": "Unity",
+      "email": "ivan-top2105@yahoo.com",
+      "isEnrolled": "Випустився",
+      "id": "D_U-XsV6c8U"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
