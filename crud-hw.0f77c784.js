@@ -717,18 +717,20 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 var _getStudents = require("./js/getStudents");
 var _deleteStudents = require("./js/deleteStudents");
 var _addStudents = require("./js/addStudents");
+var _updateStudents = require("./js/updateStudents");
 const tableRef = document.querySelector("tbody");
 const getStudentsBtn = document.getElementById("get-students-btn");
 const formRef = document.getElementById("add-student-form");
+let currentID = null;
 function createItems(array) {
     const elem = array.map(({ id, name, age, course, skills, email, isEnrolled })=>{
         return `<tr id="${id}">
         <td>${id}</td>
-    <td>${name}</td>
-    <td>${age}</td>
-    <td>${course}</td>
-    <td>${skills}</td>
-    <td>${email}</td>
+    <td class="name">${name}</td>
+    <td class="age">${age}</td>
+    <td class="course">${course}</td>
+    <td class="skills">${skills}</td>
+    <td class="email">${email}</td>
     <td>${isEnrolled ? "\u0412\u0438\u043F\u0443\u0441\u0442\u0438\u0432\u0441\u044F" : "\u041D\u0435\u0432\u0438\u043F\u0443\u0441\u0442\u0438\u0432\u0441\u044F"}</td>
     <td>
       <button data-action="edit">Edit</button>
@@ -749,8 +751,14 @@ formRef.addEventListener("submit", (e)=>{
         course: e.currentTarget.elements.course.value,
         skills: e.currentTarget.elements.skills.value,
         email: e.currentTarget.elements.email.value,
-        isEnrolled: e.currentTarget.elements.isEnrolled.value ? "\u0412\u0438\u043F\u0443\u0441\u0442\u0438\u0432\u0441\u044F" : "\u041D\u0435 \u0432\u0438\u043F\u0443\u0441\u0442\u0438\u0432\u0441\u044F"
+        isEnrolled: e.currentTarget.elements.isEnrolled ? "\u0412\u0438\u043F\u0443\u0441\u0442\u0438\u0432\u0441\u044F" : "\u041D\u0435 \u0432\u0438\u043F\u0443\u0441\u0442\u0438\u0432\u0441\u044F"
     };
+    if (currentID) {
+        (0, _updateStudents.updateStudents)(data, currentID).then((0, _getStudents.getStudents)).then((res)=>createItems(res)).finally(()=>{
+            formRef.reset();
+        });
+        return;
+    }
     (0, _addStudents.addStudent)(data).then((0, _getStudents.getStudents)).then((res)=>createItems(res)).finally(()=>{
         formRef.reset();
     });
@@ -761,9 +769,18 @@ tableRef.addEventListener("click", (e)=>{
     const tr = e.target.closest("tr");
     const id = tr.id;
     if (action === "delete") (0, _deleteStudents.deleteStudents)(id).then((0, _getStudents.getStudents)).then((res)=>createItems(res));
+    if (action === "edit") {
+        currentID = id;
+        formRef.elements.name.value = tr.querySelector(".name").textContent;
+        formRef.elements.age.value = tr.querySelector(".age").textContent;
+        formRef.elements.course.value = tr.querySelector(".course").textContent;
+        formRef.elements.skills.value = tr.querySelector(".skills").textContent;
+        formRef.elements.email.value = tr.querySelector(".email").textContent;
+        formRef.elements.email.value = tr.querySelector(".email").textContent;
+    }
 });
 
-},{"./js/getStudents":"1HYqm","./js/deleteStudents":"kvimH","./js/addStudents":"i95wQ"}],"1HYqm":[function(require,module,exports,__globalThis) {
+},{"./js/getStudents":"1HYqm","./js/deleteStudents":"kvimH","./js/addStudents":"i95wQ","./js/updateStudents":"hEkND"}],"1HYqm":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "getStudents", ()=>getStudents);
@@ -825,6 +842,21 @@ function addStudent(data) {
         }
     };
     return fetch("http://localhost:3000/students", options).then((res)=>res.json());
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"hEkND":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "updateStudents", ()=>updateStudents);
+function updateStudents(data, id) {
+    const options = {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json; charset=UTF-8"
+        }
+    };
+    return fetch(`http://localhost:3000/students${id}`, options).then((res)=>res.json());
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}]},["7wZbQ","2R06K"], "2R06K", "parcelRequire357b", {})
