@@ -751,11 +751,12 @@ formRef.addEventListener("submit", (e)=>{
         course: e.currentTarget.elements.course.value,
         skills: e.currentTarget.elements.skills.value,
         email: e.currentTarget.elements.email.value,
-        isEnrolled: e.currentTarget.elements.isEnrolled ? "\u0412\u0438\u043F\u0443\u0441\u0442\u0438\u0432\u0441\u044F" : "\u041D\u0435 \u0432\u0438\u043F\u0443\u0441\u0442\u0438\u0432\u0441\u044F"
+        isEnrolled: e.currentTarget.elements.isEnrolled.checked
     };
     if (currentID) {
         (0, _updateStudents.updateStudents)(data, currentID).then((0, _getStudents.getStudents)).then((res)=>createItems(res)).finally(()=>{
             formRef.reset();
+            currentID = null;
         });
         return;
     }
@@ -764,7 +765,7 @@ formRef.addEventListener("submit", (e)=>{
     });
 });
 tableRef.addEventListener("click", (e)=>{
-    if (e.target.noneName === "BUTTON") return;
+    if (e.target.nodeName !== "BUTTON") return;
     const action = e.target.dataset.action;
     const tr = e.target.closest("tr");
     const id = tr.id;
@@ -778,12 +779,14 @@ tableRef.addEventListener("click", (e)=>{
         formRef.elements.email.value = tr.querySelector(".email").textContent;
         formRef.elements.email.value = tr.querySelector(".email").textContent;
     }
-});
+}) // asdasd
+;
 
 },{"./js/getStudents":"1HYqm","./js/deleteStudents":"kvimH","./js/addStudents":"i95wQ","./js/updateStudents":"hEkND"}],"1HYqm":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "getStudents", ()=>getStudents);
+parcelHelpers.export(exports, "getStudents", ()=>getStudents) // sadsad
+;
 function getStudents() {
     return fetch("http://localhost:3000/students").then((res)=>res.json()).catch((error)=>error);
 }
@@ -821,7 +824,8 @@ exports.export = function(dest, destName, get) {
 },{}],"kvimH":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "deleteStudents", ()=>deleteStudents);
+parcelHelpers.export(exports, "deleteStudents", ()=>deleteStudents) // asdasd
+;
 function deleteStudents(id) {
     const options = {
         method: "DELETE"
@@ -832,7 +836,8 @@ function deleteStudents(id) {
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"i95wQ":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "addStudent", ()=>addStudent);
+parcelHelpers.export(exports, "addStudent", ()=>addStudent) // asdasdas
+;
 function addStudent(data) {
     const options = {
         method: "POST",
@@ -847,16 +852,17 @@ function addStudent(data) {
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"hEkND":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "updateStudents", ()=>updateStudents);
+parcelHelpers.export(exports, "updateStudents", ()=>updateStudents) // asdasdas
+;
 function updateStudents(data, id) {
     const options = {
-        method: "POST",
+        method: "PUT",
         body: JSON.stringify(data),
         headers: {
             "Content-Type": "application/json; charset=UTF-8"
         }
     };
-    return fetch(`http://localhost:3000/students${id}`, options).then((res)=>res.json());
+    return fetch(`http://localhost:3000/students/${id}`, options).then((res)=>res.json());
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}]},["7wZbQ","2R06K"], "2R06K", "parcelRequire357b", {})
