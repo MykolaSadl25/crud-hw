@@ -40,7 +40,7 @@ formRef.addEventListener("submit",(e)=>{
         course:e.currentTarget.elements.course.value,
         skills:e.currentTarget.elements.skills.value,
         email:e.currentTarget.elements.email.value,
-        isEnrolled:e.currentTarget.elements.isEnrolled?"Випустився":"Не випустився"
+        isEnrolled:e.currentTarget.elements.isEnrolled.checked,
     }
     if (currentID) {
         updateStudents(data,currentID)
@@ -48,6 +48,7 @@ formRef.addEventListener("submit",(e)=>{
         .then(res=>createItems(res))
         .finally(()=>{
             formRef.reset()
+            currentID=null;
         })
         return;
     }
@@ -60,7 +61,7 @@ formRef.addEventListener("submit",(e)=>{
 })
 
 tableRef.addEventListener("click",(e)=>{
-    if (e.target.noneName ==="BUTTON") {
+    if (e.target.nodeName !=="BUTTON") {
         return;
     }
     const action = e.target.dataset.action;

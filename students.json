@@ -44,12 +44,12 @@
       "id": "BS_uI6FzY8o"
     },
     {
-      "name": "Ivan Melnyk",
+      "name": "Ryan Daniels",
       "age": "11",
       "course": "GameDev",
       "skills": "Unity",
       "email": "ivan-top2105@yahoo.com",
-      "isEnrolled": "Випустився",
+      "isEnrolled": false,
       "id": "D_U-XsV6c8U"
     }
   ],
