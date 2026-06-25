@@ -740,10 +740,15 @@ function createItems(array) {
     }).join("");
     tableRef.innerHTML = elem;
 }
-getStudentsBtn.addEventListener("click", ()=>{
-    (0, _getStudents.getStudents)().then((res)=>createItems(res)).catch((error)=>console.log(error));
+getStudentsBtn.addEventListener("click", async ()=>{
+    try {
+        const res = await (0, _getStudents.getStudents)();
+        createItems(res);
+    } catch (error) {
+        console.log(error.message);
+    }
 });
-formRef.addEventListener("submit", (e)=>{
+formRef.addEventListener("submit", async (e)=>{
     e.preventDefault();
     const data = {
         name: e.currentTarget.elements.name.value,
@@ -753,23 +758,33 @@ formRef.addEventListener("submit", (e)=>{
         email: e.currentTarget.elements.email.value,
         isEnrolled: e.currentTarget.elements.isEnrolled.checked
     };
-    if (currentID) {
-        (0, _updateStudents.updateStudents)(data, currentID).then((0, _getStudents.getStudents)).then((res)=>createItems(res)).finally(()=>{
-            formRef.reset();
-            currentID = null;
-        });
-        return;
-    }
-    (0, _addStudents.addStudent)(data).then((0, _getStudents.getStudents)).then((res)=>createItems(res)).finally(()=>{
+    if (currentID) try {
+        await (0, _updateStudents.updateStudents)(data, currentID);
+        const res = await (0, _getStudents.getStudents)();
+        createItems(res);
         formRef.reset();
-    });
+        currentID = null;
+        return;
+    } catch (error) {
+        console.log(error.message);
+    }
+    await (0, _addStudents.addStudent)(data);
+    const res = await (0, _getStudents.getStudents)();
+    createItems(res);
+    formRef.reset();
 });
-tableRef.addEventListener("click", (e)=>{
+tableRef.addEventListener("click", async (e)=>{
     if (e.target.nodeName !== "BUTTON") return;
     const action = e.target.dataset.action;
     const tr = e.target.closest("tr");
     const id = tr.id;
-    if (action === "delete") (0, _deleteStudents.deleteStudents)(id).then((0, _getStudents.getStudents)).then((res)=>createItems(res));
+    if (action === "delete") try {
+        await (0, _deleteStudents.deleteStudents)(id);
+        const res = await (0, _getStudents.getStudents)();
+        createItems(res);
+    } catch (error) {
+        console.log(error.message);
+    }
     if (action === "edit") {
         currentID = id;
         formRef.elements.name.value = tr.querySelector(".name").textContent;
@@ -787,8 +802,15 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "getStudents", ()=>getStudents) // sadsad
 ;
-function getStudents() {
-    return fetch("http://localhost:3000/students").then((res)=>res.json()).catch((error)=>error);
+async function getStudents() {
+    try {
+        const res = await fetch("http://localhost:3000/students");
+        if (!res.ok) throw new Error(error.message);
+        const info = await res.json();
+        return info;
+    } catch (error1) {
+        throw error1;
+    }
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"jnFvT":[function(require,module,exports,__globalThis) {
@@ -826,11 +848,17 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "deleteStudents", ()=>deleteStudents) // asdasd
 ;
-function deleteStudents(id) {
+async function deleteStudents(id) {
     const options = {
         method: "DELETE"
     };
-    return fetch(`http://localhost:3000/students/${id}`, options);
+    try {
+        const res = await fetch(`http://localhost:3000/students/${id}`, options);
+        if (!res.ok) throw new Error(error.message);
+        return res;
+    } catch (error1) {
+        throw error1;
+    }
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"i95wQ":[function(require,module,exports,__globalThis) {
@@ -838,7 +866,7 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "addStudent", ()=>addStudent) // asdasdas
 ;
-function addStudent(data) {
+async function addStudent(data) {
     const options = {
         method: "POST",
         body: JSON.stringify(data),
@@ -846,7 +874,14 @@ function addStudent(data) {
             "Content-Type": "application/json; charset=UTF-8"
         }
     };
-    return fetch("http://localhost:3000/students", options).then((res)=>res.json());
+    try {
+        const res = await fetch("http://localhost:3000/students", options);
+        if (!res.ok) throw new Error(error.messages);
+        const info = await res.json();
+        return info;
+    } catch (error1) {
+        throw error1;
+    }
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"hEkND":[function(require,module,exports,__globalThis) {
@@ -854,7 +889,7 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "updateStudents", ()=>updateStudents) // asdasdas
 ;
-function updateStudents(data, id) {
+async function updateStudents(data, id) {
     const options = {
         method: "PUT",
         body: JSON.stringify(data),
@@ -862,7 +897,14 @@ function updateStudents(data, id) {
             "Content-Type": "application/json; charset=UTF-8"
         }
     };
-    return fetch(`http://localhost:3000/students/${id}`, options).then((res)=>res.json());
+    try {
+        const res = await fetch(`http://localhost:3000/students/${id}`, options);
+        if (!res.ok) throw new Error(error.message);
+        const info = await res.json();
+        return info;
+    } catch (error1) {
+        throw error1;
+    }
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}]},["7wZbQ","2R06K"], "2R06K", "parcelRequire357b", {})
