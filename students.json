@@ -35,22 +35,22 @@
       "id": "7OnPNtpY2ok"
     },
     {
-      "name": "Nikita Dacton",
+      "name": "Nikita Melnyk",
       "age": "16",
       "course": "Frontend",
       "skills": "HTML,CSS,JS,PYTHON,C#",
       "email": "nikita-dact@gmail.com",
-      "isEnrolled": "Випустився",
+      "isEnrolled": false,
       "id": "BS_uI6FzY8o"
     },
     {
-      "name": "Ryan Daniels",
-      "age": "11",
-      "course": "GameDev",
-      "skills": "Unity",
-      "email": "ivan-top2105@yahoo.com",
-      "isEnrolled": false,
-      "id": "D_U-XsV6c8U"
+      "name": "Maskim Benko",
+      "age": "10",
+      "course": "Frontend",
+      "skills": "HTML,CSS,JS,PYTHON,C#",
+      "email": "nikita-dact@gmail.com",
+      "isEnrolled": true,
+      "id": "JnybH3OfgZo"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

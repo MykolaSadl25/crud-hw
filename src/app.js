@@ -26,13 +26,17 @@ function createItems(array) {
      tableRef.innerHTML = elem;
 };
 
-getStudentsBtn.addEventListener("click",()=>{
-    getStudents()
-    .then(res=>createItems(res))
-    .catch(error=>console.log(error));
+getStudentsBtn.addEventListener("click",async ()=>{
+    try {
+    const res = await getStudents()
+    createItems(res)
+    } catch (error) {
+        console.log(error.message);
+        
+    }
 })
 
-formRef.addEventListener("submit",(e)=>{
+formRef.addEventListener("submit",async (e)=>{
     e.preventDefault()
     const data = {
         name:e.currentTarget.elements.name.value,
@@ -43,24 +47,25 @@ formRef.addEventListener("submit",(e)=>{
         isEnrolled:e.currentTarget.elements.isEnrolled.checked,
     }
     if (currentID) {
-        updateStudents(data,currentID)
-        .then(getStudents)
-        .then(res=>createItems(res))
-        .finally(()=>{
-            formRef.reset()
-            currentID=null;
-        })
-        return;
-    }
-    addStudent(data)
-    .then(getStudents)
-    .then(res=>createItems(res)).finally(()=>{
+        try {
+            await updateStudents(data,currentID)
+        const res = await getStudents()
+        createItems(res)
         formRef.reset()
-    })
-    
+        currentID=null;
+        return;
+        } catch (error) {
+            console.log(error.message);
+            
+        }
+    }
+    await addStudent(data)
+    const res = await getStudents()
+    createItems(res)
+    formRef.reset()
 })
 
-tableRef.addEventListener("click",(e)=>{
+tableRef.addEventListener("click",async (e)=>{
     if (e.target.nodeName !=="BUTTON") {
         return;
     }
@@ -68,9 +73,14 @@ tableRef.addEventListener("click",(e)=>{
     const tr = e.target.closest("tr")
     const id = tr.id;
     if (action === "delete") {
-        deleteStudents(id)
-        .then(getStudents)
-        .then(res=>createItems(res))
+        try {
+            await deleteStudents(id)
+        const res = await getStudents()
+        createItems(res)
+        } catch (error) {
+            console.log(error.message);
+            
+        }
     }
     if (action === "edit") {
         currentID = id;
